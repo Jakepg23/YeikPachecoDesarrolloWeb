@@ -130,4 +130,22 @@ public class CursoController {
             cursoService.buscarPorId(id).ifPresent(existing -> curso.setImagenUrl(existing.getImagenUrl()));
         }
         cursoService.guardar(curso);
-        ra.addFlashA
+        ra.addFlashAttribute("ok", "Curso actualizado correctamente!");
+        return "redirect:/cursos";
+    }
+
+    // ============================================
+    // DELETE
+    // ============================================
+
+    @PostMapping("/{id}/eliminar")
+    public String eliminar(@PathVariable Long id, RedirectAttributes ra) {
+        try {
+            cursoService.eliminar(id);
+            ra.addFlashAttribute("ok", "Curso eliminado");
+        } catch (Exception e) {
+            ra.addFlashAttribute("error", "No se pudo eliminar: " + e.getMessage());
+        }
+        return "redirect:/cursos";
+    }
+}

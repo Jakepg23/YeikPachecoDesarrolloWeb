@@ -62,4 +62,52 @@ public class Curso {
      * Conceptos:
      *  - @ManyToOne: muchos Cursos pertenecen a UN Profesor.
      *  - fetch = LAZY: el profesor NO se carga junto con el curso. Hibernate solo
-     *    hace el SELECT a profesores 
+     *    hace el SELECT a profesores cuando alguien llama a curso.getProfesor().
+     *  - @JoinColumn: define la columna FK en la tabla cursos. Si no se pone,
+     *    Hibernate inventa un nombre tipo "profesor_id".
+     *
+     * @ManyToOne(fetch = FetchType.LAZY)
+     * @JoinColumn(name = "profesor_id")
+     * private Profesor profesor;
+     */
+
+    /** Bonus: URL de imagen subida a Firebase Storage. Opcional. */
+    @Column(length = 500)
+    private String imagenUrl;
+
+    public Curso() {
+    }
+
+    public Curso(Long id, String nombre, String descripcion, int creditos, String profesor) {
+        this.id = id;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.creditos = creditos;
+        this.profesor = profesor;
+    }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getNombre() { return nombre; }
+    public void setNombre(String nombre) { this.nombre = nombre; }
+
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+
+    public int getCreditos() { return creditos; }
+    public void setCreditos(int creditos) { this.creditos = creditos; }
+
+    // CLASE 7 - PARTE A.1: cuando reemplaces el campo profesor, estos getter/setter
+    // tambien cambian. BORRA los de String y descomenta los de Profesor abajo.
+    public String getProfesor() { return profesor; }
+    public void setProfesor(String profesor) { this.profesor = profesor; }
+
+    /*
+     * public Profesor getProfesor() { return profesor; }
+     * public void setProfesor(Profesor profesor) { this.profesor = profesor; }
+     */
+
+    public String getImagenUrl() { return imagenUrl; }
+    public void setImagenUrl(String imagenUrl) { this.imagenUrl = imagenUrl; }
+}
