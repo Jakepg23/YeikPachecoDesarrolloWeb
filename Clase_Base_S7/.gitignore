@@ -1,0 +1,26 @@
+target/
+.mvn/wrapper/maven-wrapper.jar
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# Build
+build/
+out/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets - NUNCA subir
+src/main/resources/firebase-key.json
+application-local.properties
+*.env
