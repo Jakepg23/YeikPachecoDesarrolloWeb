@@ -24,11 +24,21 @@
                 <span class="badge bg-primary" th:text="${productos.size()}">0</span>
             </p>
         </div>
-        <div>
+
+        <div class="d-flex gap-2">
+            <a class="btn btn-primary btn-sm" th:href="@{/productos/nuevo}">
+                <i class="bi bi-plus-circle me-1"></i>Nuevo producto
+            </a>
+
             <a href="/productos" class="btn btn-outline-secondary btn-sm">
                 <i class="bi bi-arrow-clockwise me-1"></i>Ver todos
             </a>
         </div>
+    </div>
+
+    <div class="alert alert-success alert-dismissible fade show" th:if="${ok}">
+        <span th:text="${ok}">Operación realizada</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
     <!-- Sin resultados -->
@@ -45,7 +55,7 @@
             <div class="card h-100 shadow-sm card-hover">
                 <div class="card-body d-flex flex-column">
 
-                    <!-- Categoria y estado -->
+                    <!-- Categoria y badges de stock -->
                     <div class="mb-2">
                         <span class="badge bg-info mb-2"
                               th:text="${p.categoria}">

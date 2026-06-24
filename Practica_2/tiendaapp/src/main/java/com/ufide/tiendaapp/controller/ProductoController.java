@@ -3,12 +3,19 @@ package com.ufide.tiendaapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ufide.tiendaapp.entity.Producto;
 import com.ufide.tiendaapp.service.ProductoService;
+
+import jakarta.validation.Valid;
 
 /**
  * Controlador de productos.
@@ -39,6 +46,28 @@ public class ProductoController {
             modelo.addAttribute("productos", productoService.listar());
         }
         return "productos";
+    }
+
+    /** GET /productos/nuevo - mostrar formulario para crear producto */
+    @GetMapping("/nuevo")
+    public String mostrarFormNuevo(Model modelo) {
+        modelo.addAttribute("producto", new Producto());
+        return "productos/form";
+    }
+
+    /** POST /productos - guardar producto nuevo */
+    @PostMapping
+    public String guardar(@Valid @ModelAttribute("producto") Producto producto,
+                          BindingResult result,
+                          RedirectAttributes ra) {
+
+        if (result.hasErrors()) {
+            return "productos/form";
+        }
+
+        productoService.guardar(producto);
+        ra.addFlashAttribute("ok", "Producto guardado correctamente");
+        return "redirect:/productos";
     }
 
     /** GET /productos/{id} - ver detalle de un producto */
