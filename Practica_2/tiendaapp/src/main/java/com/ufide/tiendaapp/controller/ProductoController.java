@@ -99,6 +99,14 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
+    /** POST /productos/{id}/eliminar - eliminar producto */
+@PostMapping("/{id}/eliminar")
+public String eliminar(@PathVariable Long id, RedirectAttributes ra) {
+    productoService.eliminar(id);
+    ra.addFlashAttribute("ok", "Producto eliminado correctamente");
+    return "redirect:/productos";
+}
+
     /** GET /productos/{id} - ver detalle de un producto */
     @GetMapping("/{id}")
     public String detalle(Model modelo, @PathVariable Long id) {
