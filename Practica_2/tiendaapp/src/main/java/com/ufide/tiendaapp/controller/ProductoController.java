@@ -45,6 +45,7 @@ public class ProductoController {
         } else {
             modelo.addAttribute("productos", productoService.listar());
         }
+
         return "productos";
     }
 
@@ -67,6 +68,34 @@ public class ProductoController {
 
         productoService.guardar(producto);
         ra.addFlashAttribute("ok", "Producto guardado correctamente");
+        return "redirect:/productos";
+    }
+
+    /** GET /productos/{id}/editar - mostrar formulario para editar producto */
+    @GetMapping("/{id}/editar")
+    public String mostrarFormEditar(@PathVariable Long id, Model modelo) {
+        Producto producto = productoService.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Producto no encontrado"));
+
+        modelo.addAttribute("producto", producto);
+        return "productos/form";
+    }
+
+    /** POST /productos/{id} - actualizar producto existente */
+    @PostMapping("/{id}")
+    public String actualizar(@PathVariable Long id,
+                             @Valid @ModelAttribute("producto") Producto producto,
+                             BindingResult result,
+                             RedirectAttributes ra) {
+
+        if (result.hasErrors()) {
+            return "productos/form";
+        }
+
+        producto.setId(id);
+        productoService.guardar(producto);
+        ra.addFlashAttribute("ok", "Producto actualizado correctamente");
+
         return "redirect:/productos";
     }
 
