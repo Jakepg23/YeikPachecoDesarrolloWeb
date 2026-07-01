@@ -3,12 +3,17 @@ package com.ufide.eventapp.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ufide.eventapp.entity.Evento;
 import com.ufide.eventapp.service.EventoService;
+
+import jakarta.validation.Valid;
 
 /**
  * Controlador de eventos - estado base del Caso Practico 1.
@@ -45,5 +50,70 @@ public class EventoController {
         return "evento";
     }
 
-    // TODO Caso Practico 1: agregar aca los endpoints del CRUD y el GET con parametro.
+    @GetMapping("/categoria/{categoria}")
+    public String filtrarPorCategoria(@PathVariable String categoria, Model model) {
+        model.addAttribute("eventos", service.buscarPorCategoria(categoria));
+        model.addAttribute("categoriaSeleccionada", categoria);
+        return "eventos";
+    }
+
+    @GetMapping("/nuevo")
+    public String nuevo(Model model) {
+        model.addAttribute("evento", new Evento());
+        model.addAttribute("titulo", "Nuevo evento");
+        model.addAttribute("accion", "/eventos");
+        return "eventos/form";
+    }
+
+    @PostMapping
+    public String guardar(@Valid @ModelAttribute("evento") Evento evento,
+                          BindingResult result,
+                          Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Nuevo evento");
+            model.addAttribute("accion", "/eventos");
+            return "eventos/form";
+        }
+
+        service.guardar(evento);
+        return "redirect:/eventos";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, Model model) {
+        Evento evento = service.buscarPorId(id).orElse(null);
+
+        if (evento == null) {
+            return "redirect:/eventos";
+        }
+
+        model.addAttribute("evento", evento);
+        model.addAttribute("titulo", "Editar evento");
+        model.addAttribute("accion", "/eventos/" + id);
+        return "eventos/form";
+    }
+
+    @PostMapping("/{id}")
+    public String actualizar(@PathVariable Long id,
+                             @Valid @ModelAttribute("evento") Evento evento,
+                             BindingResult result,
+                             Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("titulo", "Editar evento");
+            model.addAttribute("accion", "/eventos/" + id);
+            return "eventos/form";
+        }
+
+        evento.setId(id);
+        service.guardar(evento);
+        return "redirect:/eventos";
+    }
+
+    @PostMapping("/{id}/eliminar")
+    public String eliminar(@PathVariable Long id) {
+        service.eliminar(id);
+        return "redirect:/eventos";
+    }
 }
