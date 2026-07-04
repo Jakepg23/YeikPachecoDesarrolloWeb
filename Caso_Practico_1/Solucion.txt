@@ -1,0 +1,59 @@
+### 4. README de lógica (`Caso_Practico_1/SOLUCION.md`)
+
+Documento corto (1 a 2 páginas) explicando con tus palabras:
+
+- Qué endpoints implementaste y qué hace cada uno.
+- Por qué elegiste las anotaciones de validación que pusiste en `Evento`.
+- Cómo resolviste el modal de confirmación (qué atributos `data-bs-*` usaste).
+- Cualquier decisión técnica que hayas tomado (ej: usaste `LocalDate`, agregaste un método util, etc.).
+
+**No copies código aquí.** Explicalo en prosa. Si en la calificación parece autogenerado, vale 0.
+
+--------------------------------------------------------------------------------------------------------
+
+- Qué endpoints implementaste y qué hace cada uno.
+ 
+
+--Bueno, implemente los endpoints faltantes que para este casi seria el de 
+
+"GET-eventos" = El cual nos muestra el catalogo de eventos y con eventos{id} puedo visualizar los detalles de los eventos.
+
+bueno y una ves mencionado el mas lógico que es el "GET" bien los demás endpoints utilizados para poder hacer llamado de mis acciones. 
+
+get-eventos-categoría-id = con este muestro el detalle de de un evento por su categoría
+get-eventos-nuevo -  este me lleva al formulario para crear un nuevo evento 
+get-eventos-id-editar = esto nos carga el formulario con los datos del evento seleccionado para editarlo
+POST - eventos-id-eliminar =  Con este eliminamos un evento después de confirmar a ese usuario.
+
+De los que use estos serian los mas importantes para este proyecto profe. 
+
+--------------------------------------------------------------------------------------------------------
+
+
+- Por qué elegiste las anotaciones de validación que pusiste en `Evento`.
+
+
+----Mmmm aquí puse el que siempre se usa por norma general en bases de datos que seria el @notblank que es tipo un notnull en bases de datos para no dejar al usuario dejar espacios en blanco donde se necesita información importante tipo #cedula/ 
+
+---- en los cupos vendidos utilice el @min para que el usuario no pueda elegir números negativos
+
+y también, @size para limitar la cantidad de caracteres y mantener la info organizada en mi DB y que la gente no me cuente su vida ahi xd. 
+
+--------------------------------------------------------------------------------------------------------
+
+
+- Cómo resolviste el modal de confirmación (qué atributos `data-bs-*` usaste).
+
+Aquí tuve que meterme a la pagina que me compartió por teams para investigar sobre este porque si estab perdido lo único que sabia era que el cuadro de confirmación nativo del navegador no se podia usar como dice el enunciado.
+
+ Bueno, después de hacerle un par de preguntas a Chatgpt y ver como hacer para la eliminación de eventos con el modal de bootstrap lo único que use fue que en cada botón de eliminar incluí los atributos de data-bs-toogle"modal" y data-bs-target"modaleliminar" y agregue atributos personalizados data-id y data-nombre y con eso enviar el identificar y el nombre del evento a borrar. 
+
+Profe me parece interesante este modo a mi me gusta el tema de los datos y yo normalmente para eliminar algo uso el soft delete (1-activo, 2-inactivo) pero igual interesante esta forma. aunq esto sea un modal de antes de borrar algo xd
+
+
+--------------------------------------------------------------------------------------------------------
+
+- Cualquier decisión técnica que hayas tomado (ej: usaste `LocalDate`, agregaste un método util, etc.).
+
+
+--en este caso el mas claro creo que seria el utilizar el formulario para la creación y edición de eventos para evitar duplicar código y el localdate para manejar la fecha de los eventos ya que solo estamos almacenando fecha y no una hora especifica como el timstamp de DB. 

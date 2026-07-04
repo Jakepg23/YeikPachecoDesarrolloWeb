@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos | EventApp</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/header :: navbar}"></div>
+
+<main class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="mb-1">Catalogo de eventos</h1>
+            <p class="text-muted mb-0">
+                Total: <span class="badge bg-primary" th:text="${eventos.size()}">0</span>
+            </p>
+            <p class="text-muted mb-0" th:if="${categoriaSeleccionada}">
+                Filtro por categoría:
+                <span class="badge bg-secondary" th:text="${categoriaSeleccionada}">Categoria</span>
+                <a th:href="@{/eventos}" class="ms-2">Ver todos</a>
+            </p>
+        </div>
+
+        <a th:href="@{/eventos/nuevo}" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-1"></i>
+            Nuevo evento
+        </a>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6 col-lg-4" th:each="e : ${eventos}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <a class="badge bg-secondary text-decoration-none"
+                           th:href="@{/eventos/categoria/{categoria}(categoria=${e.categoria})}"
+                           th:text="${e.categoria}">
+                            categoria
+                        </a>
+                        <small class="text-muted" th:text="${e.fecha}">2026-08-01</small>
+                    </div>
+
+                    <h5 class="card-title" th:text="${e.nombre}">Nombre del evento</h5>
+
+                    <p class="text-muted small flex-grow-1" th:text="${e.descripcion}">
+                        Descripcion breve del evento.
+                    </p>
+
+                    <div class="small text-muted mb-2">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        <span th:text="${e.lugar}">Lugar</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <small>
+                            <span class="fw-bold" th:text="${e.cuposVendidos} + ' / ' + ${e.cupoMaximo}">0/0</span>
+                            cupos
+                        </small>
+                    </div>
+
+                    <div class="d-flex gap-2 mt-auto">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/eventos/{id}(id=${e.id})}">
+                            Ver
+                        </a>
+
+                        <a class="btn btn-outline-secondary btn-sm"
+                           th:href="@{/eventos/{id}/editar(id=${e.id})}">
+                            Editar
+                        </a>
+
+                        <button type="button"
+                                class="btn btn-outline-danger btn-sm ms-auto"
+                                data-bs-toggle="modal"
+                                data-bs-target="#modalEliminar"
+                                th:attr="data-id=${e.id}, data-nombre=${e.nombre}">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-warning mt-4" th:if="${eventos.isEmpty()}">
+        <i class="bi bi-exclamation-triangle me-2"></i>
+        No hay eventos para mostrar.
+    </div>
+
+</main>
+
+<div class="modal fade" id="modalEliminar" tabindex="-1" aria-labelledby="modalEliminarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formEliminar" method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEliminarLabel">Confirmar eliminación</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    ¿Seguro que desea eliminar el evento
+                    <strong id="nombreEventoEliminar">este evento</strong>?
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Cancelar
+                    </button>
+
+                    <button type="submit" class="btn btn-danger">
+                        Eliminar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/header :: footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    const modalEliminar = document.getElementById('modalEliminar');
+
+    modalEliminar.addEventListener('show.bs.modal', function (event) {
+        const boton = event.relatedTarget;
+        const id = boton.getAttribute('data-id');
+        const nombre = boton.getAttribute('data-nombre');
+
+        const form = document.getElementById('formEliminar');
+        const nombreEvento = document.getElementById('nombreEventoEliminar');
+
+        form.action = '/eventos/' + id + '/eliminar';
+        nombreEvento.textContent = nombre;
+    });
+</script>
+
+</body>
+</html>
