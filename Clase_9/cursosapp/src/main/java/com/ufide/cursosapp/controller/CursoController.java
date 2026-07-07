@@ -72,6 +72,7 @@ public class CursoController {
         Curso curso = cursoService.buscarPorId(id).orElseThrow();
         modelo.addAttribute("curso", curso);
         // CLASE 9 - PASO D.5: descomentar para llenar el dropdown de profesores
+	// modelo.addAttribute("curso", new Curso());
         // modelo.addAttribute("profesores", profesorService.listar());
         return "cursos/form";
     }

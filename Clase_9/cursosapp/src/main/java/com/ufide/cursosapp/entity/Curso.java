@@ -12,6 +12,12 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+// CLASE 9 - PASO A.0 Añadir los import necesarios
+//import jakarta.persistence.FetchType;
+//import jakarta.persistence.JoinColumn;
+//import jakarta.persistence.ManyToOne;
+//import jakarta.validation.constraints.NotNull;
+
 @Entity
 @Table(name = "cursos")
 public class Curso {
