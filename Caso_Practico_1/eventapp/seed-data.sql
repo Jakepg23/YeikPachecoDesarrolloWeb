@@ -2,6 +2,7 @@
 -- EventApp - Caso Practico 1
 --
 -- 1. Crear la base de datos PRIMERO:
+<<<<<<< HEAD
 --      CREATE DATABASE IF NOT EXISTS eventappdb CHARACTER SET utf8mb4;
 --
 -- 2. Configurar tu DB_PASSWORD en variable de entorno:
@@ -10,6 +11,16 @@
 --
 -- 3. Arrancar la app PRIMERO (mvnw spring-boot:run).
 --    Hibernate va a crear la tabla "eventos" automaticamente.
+=======
+ CREATE DATABASE IF NOT EXISTS eventappdb CHARACTER SET utf8mb4;
+--
+-- 2. Configurar tu DB_PASSWORD en variable de entorno:
+ -- setx DB_PASSWORD "eventapp"
+--      (despues abrir una terminal nueva para que tome efecto)
+--
+-- 3. Arrancar la app PRIMERO (mvnw spring-boot:run).
+-- Hibernate va a crear la tabla "eventos" automaticamente.
+>>>>>>> 2f6b2f4 (docs: agregar materiales del repositorio del profesor)
 --
 -- 4. RECIEN AHORA ejecutar los INSERTs de abajo en Workbench.
 -- ============================================================

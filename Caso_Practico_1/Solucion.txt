@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 Profe lo deje como TXT porque de lo que averigue no vi bien como hacer lo del markdown - prefiero tomarme mas tiempo para averiguar y hacerlo bien :)
 
 
+=======
+>>>>>>> 2f6b2f4 (docs: agregar materiales del repositorio del profesor)
 ### 4. README de lógica (`Caso_Practico_1/SOLUCION.md`)
 
 Documento corto (1 a 2 páginas) explicando con tus palabras:
