@@ -91,10 +91,11 @@ Spring Security no sabe nada de tu tabla `usuarios` a menos que se lo digas. Ese
 
 1. Creá el paquete nuevo `com.ufide.cursosapp.config`.
 2. Abrí `config/package-info.md`. Copiá el código a un archivo nuevo `config/SecurityConfig.java` (**PASO C.1**).
-3. Leé el método `filterChain`: define qué URLs son públicas (`permitAll()`) y cuáles requieren sesión (`anyRequest().authenticated()`), y configura `formLogin()` apuntando a una página de login propia (`/login`) y `logout()`.
-4. (**PASO C.2**, opcional para experimentar) Probá comentar temporalmente `.anyRequest().authenticated()` y ver que `/cursos` vuelve a ser público — después descomentalo de nuevo.
+3. Abrí `HomeController.java` (paquete `controller/`). Vas a ver un método comentado marcado **PASO C.2**: `@GetMapping("/login")`, que devuelve la vista `login`. Descomentalo. `SecurityConfig` ya le dice a Spring Security que la página de login está en `/login` (`loginPage("/login")`), pero eso solo indica la URL — hace falta este método para que algo responda ahí. Sin él, vas a ver un error 404 (`Whitelabel Error Page`) en vez de tu login.
+4. Leé el método `filterChain`: define qué URLs son públicas (`permitAll()`) y cuáles requieren sesión (`anyRequest().authenticated()`), y configura `formLogin()` apuntando a una página de login propia (`/login`) y `logout()`.
+5. (**PASO C.3**, opcional para experimentar) Probá comentar temporalmente `.anyRequest().authenticated()` y ver que `/cursos` vuelve a ser público — después descomentalo de nuevo.
 
-Compilá y corré la app. Ya debería pedirte login para entrar a `/cursos` (aunque todavía no exista `login.html` resuelto — vas a ver el login default de Spring Security, muy básico). Eso se resuelve en la Parte D.
+Compilá y corré la app. Ya debería pedirte login para entrar a `/cursos`. Como `login.html` todavía no tiene el formulario descomentado (eso es la Parte D), vas a ver tu propia página en construcción — el título y el mensaje de usuarios de prueba, pero sin form todavía — no la pantalla default de Spring Security (esa solo aparece si nunca configurás `loginPage()`, y acá ya la configuramos desde el PASO C.1).
 
 ---
 
@@ -127,7 +128,7 @@ Compilá y corré la app. Ya debería pedirte login para entrar a `/cursos` (aun
 | Síntoma | Solución |
 |---|---|
 | El login por defecto de Spring Security (pantalla gris, sin estilos) sigue apareciendo | Falta `loginPage("/login")` en `SecurityConfig`, o `login.html` todavía no tiene el form descomentado. |
-| `Whitelabel Error Page` al ir a `/login` | El template `login.html` no está en `src/main/resources/templates/`, o hay un error de sintaxis Thymeleaf en el archivo. |
+| `Whitelabel Error Page` al ir a `/login` | Falta el `@GetMapping("/login")` en `HomeController.java` (**PASO C.2**) — `loginPage("/login")` en `SecurityConfig` solo indica la URL, no sirve la vista. También puede ser que el template `login.html` no esté en `src/main/resources/templates/`, o que haya un error de sintaxis Thymeleaf en el archivo. |
 | Redirige a `/login` en un loop infinito | `/login` no está en `.permitAll()` dentro de `authorizeHttpRequests`. |
 | `Bad credentials` con usuario/contraseña que "deberían" ser correctos | El `INSERT` de `seed-data.sql` no se ejecutó, o la contraseña quedó en texto plano en vez del hash BCrypt. |
 | El navbar no muestra el nombre de usuario ni cambia con la sesión | Falta el namespace `xmlns:sec="http://www.thymeleaf.org/extras/spring-security"` en `header.html`, o la dependencia `thymeleaf-extras-springsecurity6` en el `pom.xml`. |
