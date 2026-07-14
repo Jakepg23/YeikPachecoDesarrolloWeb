@@ -57,7 +57,7 @@ mvnw.cmd spring-boot:run      # Windows
 ## Si algo falla
 
 - **App no arranca despues del PASO A.1:** revisar que las dos dependencias nuevas quedaron bien cerradas en el XML (sin comentarios `<!--` sueltos).
-- **`Whitelabel Error Page` en `/login`:** falta `loginPage("/login")` en `SecurityConfig`, o `login.html` no existe.
+- **`Whitelabel Error Page` en `/login`:** falta descomentar `@GetMapping("/login")` en `HomeController.java` (PASO C.2) — `loginPage("/login")` en `SecurityConfig` solo indica la URL, no sirve la vista. También puede faltar `login.html`.
 - **Redirige a login infinitamente:** revisar que `/login` esté en `.permitAll()`.
 - **`Bad credentials`:** el hash del seed no es un BCrypt válido, o falta descomentar el INSERT de usuarios.
 - **No aparece el usuario en el navbar:** falta el namespace `xmlns:sec` en `header.html`, o la dependencia `thymeleaf-extras-springsecurity6`.
