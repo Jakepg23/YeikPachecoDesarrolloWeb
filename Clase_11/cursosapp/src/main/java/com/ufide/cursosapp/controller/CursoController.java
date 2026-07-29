@@ -2,7 +2,7 @@ package com.ufide.cursosapp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 // CLASE 11 - PASO B.1: descomentar este import.
-// import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -54,7 +54,7 @@ public class CursoController {
     // (Spring agrega el prefijo ROLE_ solo). Si un USER intenta entrar aca,
     // Spring Security lanza AccessDeniedException y SecurityConfig lo
     // redirige a /403 (una vez que hiciste la Parte C del lab).
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/nuevo")
     public String mostrarFormNuevo(Model modelo) {
         modelo.addAttribute("curso", new Curso());
@@ -63,7 +63,7 @@ public class CursoController {
     }
 
     // CLASE 11 - PASO B.3: descomentar.
-    // @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public String guardar(@Valid @ModelAttribute("curso") Curso curso,
                           BindingResult result,

@@ -1,67 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="
+             http://maven.apache.org/POM/4.0.0
+             https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Configuración principal de Spring Boot -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
-        <relativePath />
+        <version>4.0.7</version>
+        <relativePath/>
     </parent>
 
+    <!-- Información del proyecto -->
     <groupId>com.ufide</groupId>
     <artifactId>cursosapp</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>cursosapp</name>
-    <description>Proyecto base canonico del curso SC-403 - CRUD completo (dominio Curso) + Spring Security</description>
 
+    <name>cursosapp</name>
+
+    <description>
+        Proyecto del curso SC-403:
+        CRUD de cursos, Spring Security, Thymeleaf, JPA y MySQL
+    </description>
+
+    <!-- Configuración general -->
     <properties>
-        <java.version>25</java.version>
+        <java.version>21</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <dependencies>
+
+        <!-- ================================================== -->
+        <!-- APLICACIÓN WEB CON SPRING MVC                       -->
+        <!-- ================================================== -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
-        <!-- Spring Security - autenticacion y autorizacion (S10) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <!-- Dialecto sec: para Thymeleaf (sec:authorize, sec:authentication) -->
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
-        </dependency>
-
-        <!-- Spring Mail - recuperacion de contrasena (S11 Parte G) -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
+        <!-- ================================================== -->
+        <!-- THYMELEAF                                           -->
+        <!-- ================================================== -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- Permite utilizar sec:authorize y sec:authentication -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
         </dependency>
+
+        <!-- ================================================== -->
+        <!-- SPRING SECURITY                                     -->
+        <!-- ================================================== -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <!-- ================================================== -->
+        <!-- BASE DE DATOS                                       -->
+        <!-- ================================================== -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,25 +85,74 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Validaciones -->
+        <!-- ================================================== -->
+        <!-- VALIDACIONES                                        -->
+        <!-- ================================================== -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+
+        <!-- ================================================== -->
+        <!-- ENVÍO DE CORREOS                                    -->
+        <!-- ================================================== -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- ================================================== -->
+        <!-- HERRAMIENTAS DE DESARROLLO                           -->
+        <!-- ================================================== -->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- ================================================== -->
+        <!-- PRUEBAS                                             -->
+        <!-- ================================================== -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+
+            <!-- Permite ejecutar la aplicación con Maven -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
         </plugins>
     </build>
 
