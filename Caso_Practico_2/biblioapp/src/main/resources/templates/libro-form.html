@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Formulario de libro')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0"
+                        th:text="${libro.id == null ? 'Nuevo libro' : 'Editar libro'}">
+                        Libro
+                    </h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form th:action="@{/libros/guardar}"
+                          th:object="${libro}"
+                          method="post">
+
+                        <input type="hidden" th:field="*{id}">
+
+                        <div class="mb-3">
+                            <label for="titulo" class="form-label">
+                                Titulo
+                            </label>
+
+                            <input type="text"
+                                   id="titulo"
+                                   class="form-control"
+                                   th:field="*{titulo}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('titulo')}"
+                                 th:errors="*{titulo}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="autor" class="form-label">
+                                Autor
+                            </label>
+
+                            <input type="text"
+                                   id="autor"
+                                   class="form-control"
+                                   th:field="*{autor}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('autor')}"
+                                 th:errors="*{autor}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="isbn" class="form-label">
+                                ISBN
+                            </label>
+
+                            <input type="text"
+                                   id="isbn"
+                                   class="form-control"
+                                   th:field="*{isbn}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('isbn')}"
+                                 th:errors="*{isbn}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="categoria" class="form-label">
+                                Categoria
+                            </label>
+
+                            <input type="text"
+                                   id="categoria"
+                                   class="form-control"
+                                   th:field="*{categoria}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('categoria')}"
+                                 th:errors="*{categoria}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="copiasTotales" class="form-label">
+                                Copias totales
+                            </label>
+
+                            <input type="number"
+                                   id="copiasTotales"
+                                   min="1"
+                                   class="form-control"
+                                   th:field="*{copiasTotales}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('copiasTotales')}"
+                                 th:errors="*{copiasTotales}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="copiasDisponibles" class="form-label">
+                                Copias disponibles
+                            </label>
+
+                            <input type="number"
+                                   id="copiasDisponibles"
+                                   min="0"
+                                   class="form-control"
+                                   th:field="*{copiasDisponibles}">
+
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('copiasDisponibles')}"
+                                 th:errors="*{copiasDisponibles}">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Guardar
+                        </button>
+
+                        <a href="/libros" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

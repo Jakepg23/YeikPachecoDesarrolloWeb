@@ -26,6 +26,16 @@ public class LibroService {
         return libroRepository.save(libro);
     }
 
+    public void eliminar(Long id) {
+        if (!libroRepository.existsById(id)) {
+            throw new IllegalArgumentException(
+                    "No se encontro el libro con id: " + id
+            );
+        }
+
+        libroRepository.deleteById(id);
+    }
+
     // ==========================================================
     // CASO PRACTICO 2 - REQUISITO 2:
     // Estos metodos permiten descontar una copia disponible cuando
@@ -33,16 +43,25 @@ public class LibroService {
     // ==========================================================
     public void descontarCopia(Libro libro) {
         if (libro.getCopiasDisponibles() <= 0) {
-            throw new IllegalStateException("No hay copias disponibles para este libro");
+            throw new IllegalStateException(
+                    "No hay copias disponibles para este libro"
+            );
         }
 
-        libro.setCopiasDisponibles(libro.getCopiasDisponibles() - 1);
+        libro.setCopiasDisponibles(
+                libro.getCopiasDisponibles() - 1
+        );
+
         libroRepository.save(libro);
     }
 
     public void devolverCopia(Libro libro) {
         if (libro.getCopiasDisponibles() < libro.getCopiasTotales()) {
-            libro.setCopiasDisponibles(libro.getCopiasDisponibles() + 1);
+
+            libro.setCopiasDisponibles(
+                    libro.getCopiasDisponibles() + 1
+            );
+
             libroRepository.save(libro);
         }
     }

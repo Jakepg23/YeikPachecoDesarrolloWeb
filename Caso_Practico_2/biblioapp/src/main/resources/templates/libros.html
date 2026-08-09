@@ -1,10 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head('Catalogo')}"></head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{fragments/header :: head('Catalogo de libros')}"></head>
+
 <body>
+
 <div th:replace="~{fragments/header :: nav}"></div>
+
 <div class="container">
-    <h1 class="mb-4">Catalogo de libros</h1>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Catalogo de libros</h1>
+
+        <a href="/libros/nuevo"
+           class="btn btn-primary"
+           sec:authorize="hasRole('BIBLIOTECARIO')">
+            Nuevo libro
+        </a>
+    </div>
 
     <!-- ==========================================================
          CASO PRACTICO 2 - BONUS chico (+2):
@@ -13,23 +27,70 @@
          ========================================================== -->
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
+
         <div class="col" th:each="libro : ${libros}">
+
             <div class="card h-100">
+
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${libro.titulo}">Titulo</h5>
-                    <h6 class="card-subtitle mb-2 text-muted" th:text="${libro.autor}">Autor</h6>
+
+                    <h5 class="card-title"
+                        th:text="${libro.titulo}">
+                        Titulo
+                    </h5>
+
+                    <h6 class="card-subtitle mb-2 text-muted"
+                        th:text="${libro.autor}">
+                        Autor
+                    </h6>
+
                     <p class="card-text">
-                        <span class="badge bg-secondary" th:text="${libro.categoria}">Categoria</span>
+
+                        <span class="badge bg-secondary"
+                              th:text="${libro.categoria}">
+                            Categoria
+                        </span>
+
                         <span class="badge bg-info text-dark"
                               th:text="${libro.copiasDisponibles} + ' / ' + ${libro.copiasTotales} + ' disponibles'">
                             disponibles
                         </span>
+
                     </p>
-                    <a th:href="@{'/libros/' + ${libro.id}}" class="btn btn-outline-primary btn-sm">Ver detalle</a>
+
+                    <a th:href="@{'/libros/' + ${libro.id}}"
+                       class="btn btn-outline-primary btn-sm">
+                        Ver detalle
+                    </a>
+
+                    <a th:href="@{'/libros/' + ${libro.id} + '/editar'}"
+                       class="btn btn-outline-warning btn-sm"
+                       sec:authorize="hasRole('BIBLIOTECARIO')">
+                        Editar
+                    </a>
+
+                    <form th:action="@{'/libros/' + ${libro.id} + '/eliminar'}"
+                          method="post"
+                          class="d-inline"
+                          sec:authorize="hasRole('BIBLIOTECARIO')">
+
+                        <button type="submit"
+                                class="btn btn-outline-danger btn-sm"
+                                onclick="return confirm('¿Estas seguro de eliminar este libro?')">
+                            Eliminar
+                        </button>
+
+                    </form>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
+
 </body>
 </html>
