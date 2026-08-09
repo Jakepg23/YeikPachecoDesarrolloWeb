@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Prestamos')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Prestamos</h1>
+
+        <a href="/prestamos/nuevo" class="btn btn-primary">
+            Nuevo prestamo
+        </a>
+    </div>
+
+    <div class="alert alert-info" th:if="${#lists.isEmpty(prestamos)}">
+        No hay prestamos registrados.
+    </div>
+
+    <div class="table-responsive" th:if="${!#lists.isEmpty(prestamos)}">
+        <table class="table table-striped table-bordered align-middle">
+
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Libro</th>
+                    <th>Usuario</th>
+                    <th>Fecha prestamo</th>
+                    <th>Fecha limite</th>
+                    <th>Fecha devolucion</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="prestamo : ${prestamos}">
+
+                    <td th:text="${prestamo.id}"></td>
+
+                    <td th:text="${prestamo.libro.titulo}"></td>
+
+                    <td th:text="${prestamo.usuario.nombreCompleto}"></td>
+
+                    <td th:text="${prestamo.fechaPrestamo}"></td>
+
+                    <td th:text="${prestamo.fechaLimite}"></td>
+
+                    <td th:text="${prestamo.fechaDevolucion != null
+                                  ? prestamo.fechaDevolucion
+                                  : '-'}">
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success"
+                              th:if="${prestamo.fechaDevolucion != null}">
+                            Devuelto
+                        </span>
+
+                        <span class="badge bg-warning text-dark"
+                              th:if="${prestamo.fechaDevolucion == null}">
+                            Prestado
+                        </span>
+                    </td>
+
+                    <td>
+                        <form th:if="${prestamo.fechaDevolucion == null}"
+                              th:action="@{'/prestamos/' + ${prestamo.id} + '/devolver'}"
+                              method="post">
+
+                            <button type="submit"
+                                    class="btn btn-success btn-sm">
+                                Devolver
+                            </button>
+
+                        </form>
+
+                        <span th:if="${prestamo.fechaDevolucion != null}"
+                              class="text-muted">
+                            Sin acciones
+                        </span>
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <a href="/libros" class="btn btn-secondary">
+        Volver al catalogo
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head('Nuevo prestamo')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="mb-0">Registrar prestamo</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form th:action="@{/prestamos}" method="post">
+
+                        <div class="mb-3">
+                            <label for="libroId" class="form-label">
+                                Libro
+                            </label>
+
+                            <select id="libroId"
+                                    name="libroId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Seleccione un libro
+                                </option>
+
+                                <option th:each="libro : ${libros}"
+                                        th:value="${libro.id}"
+                                        th:text="${libro.titulo + ' - ' + libro.copiasDisponibles + ' disponibles'}"
+                                        th:disabled="${libro.copiasDisponibles == 0}">
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="usuarioId" class="form-label">
+                                Usuario
+                            </label>
+
+                            <select id="usuarioId"
+                                    name="usuarioId"
+                                    class="form-select"
+                                    required>
+
+                                <option value="">
+                                    Seleccione un usuario
+                                </option>
+
+                                <option th:each="usuario : ${usuarios}"
+                                        th:value="${usuario.id}"
+                                        th:text="${usuario.nombreCompleto + ' (' + usuario.username + ')'}">
+                                </option>
+
+                            </select>
+                        </div>
+
+                        <div class="alert alert-info">
+                            La fecha de prestamo se asigna automaticamente
+                            y la fecha limite sera 14 dias despues.
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Registrar prestamo
+                        </button>
+
+                        <a href="/prestamos" class="btn btn-secondary">
+                            Cancelar
+                        </a>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
