@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head('Acceso denegado')}"></head>
+
+<body>
+
+<div th:replace="~{fragments/header :: nav}"></div>
+
+<div class="container">
+
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+
+            <div class="card border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Acceso denegado</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <h1 class="display-4">403</h1>
+
+                    <p class="lead">
+                        No tenes permisos para acceder a esta funcion.
+                    </p>
+
+                    <p class="text-muted">
+                        Si consideras que deberias tener acceso, contacta al bibliotecario o administrador del sistema.
+                    </p>
+
+                    <a href="/libros" class="btn btn-primary">
+                        Volver al catalogo
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

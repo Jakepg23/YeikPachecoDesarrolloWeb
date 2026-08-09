@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:replace="~{fragments/header :: head('Prestamos')}"></head>
 
 <body>
@@ -11,7 +13,9 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Prestamos</h1>
 
-        <a href="/prestamos/nuevo" class="btn btn-primary">
+        <a href="/prestamos/nuevo"
+           class="btn btn-primary"
+           sec:authorize="hasRole('BIBLIOTECARIO')">
             Nuevo prestamo
         </a>
     </div>
@@ -32,7 +36,10 @@
                     <th>Fecha limite</th>
                     <th>Fecha devolucion</th>
                     <th>Estado</th>
-                    <th>Acciones</th>
+
+                    <th sec:authorize="hasRole('BIBLIOTECARIO')">
+                        Acciones
+                    </th>
                 </tr>
             </thead>
 
@@ -66,7 +73,8 @@
                         </span>
                     </td>
 
-                    <td>
+                    <td sec:authorize="hasRole('BIBLIOTECARIO')">
+
                         <form th:if="${prestamo.fechaDevolucion == null}"
                               th:action="@{'/prestamos/' + ${prestamo.id} + '/devolver'}"
                               method="post">
@@ -82,6 +90,7 @@
                               class="text-muted">
                             Sin acciones
                         </span>
+
                     </td>
 
                 </tr>

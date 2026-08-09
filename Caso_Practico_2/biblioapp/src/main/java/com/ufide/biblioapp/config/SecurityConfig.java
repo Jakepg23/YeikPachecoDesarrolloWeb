@@ -2,6 +2,7 @@ package com.ufide.biblioapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 //      usando @PreAuthorize en el metodo del controller
 //      correspondiente (no hace falta listarlas todas aca).
 // ==========================================================
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
@@ -32,7 +34,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/libros", "/libros/**", "/login", "/css/**", "/js/**").permitAll()
+                .requestMatchers(
+                    "/libros",
+                    "/libros/**",
+                    "/login",
+                    "/403",
+                    "/css/**",
+                    "/js/**"
+                ).permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -43,6 +52,9 @@ public class SecurityConfig {
             .logout(logout -> logout
                 .logoutSuccessUrl("/login?logout")
                 .permitAll()
+            )
+            .exceptionHandling(exception -> exception
+                .accessDeniedPage("/403")
             );
 
         return http.build();
